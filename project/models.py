@@ -68,8 +68,8 @@ class MovieSchema(Schema):
 class User(models.Base):
     __tablename__ = 'user'
 
-    email = db.Column(db.String(100), nullable=False, unique=True)
-    password = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(), nullable=False, unique=True)
+    password = db.Column(db.String(), nullable=False)
     name = db.Column(db.String(100))
     surname = db.Column(db.String(100))
     favorite_genre = db.Column(db.Integer)
@@ -81,8 +81,8 @@ class User(models.Base):
 class UserSchema(Schema):
 
     id = fields.Integer(dump_only=True)
-    email = fields.Email(required=True, validate=validate.Length(max=100))
-    password = fields.String(required=True, validate=validate.Length(max=255))
+    email = fields.Email(required=True)
+    password = fields.String(required=True)
     name = fields.String(validate=validate.Length(max=100))
     surname = fields.String(validate=validate.Length(max=100))
     favorite_genre = fields.Integer()
