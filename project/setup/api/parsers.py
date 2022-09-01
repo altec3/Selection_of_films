@@ -17,14 +17,15 @@ page_parser: RequestParser = RequestParser()
 page_parser.add_argument(name='page', type=int, location='args', required=False)
 
 movie_filter_and_page_parser: RequestParser = page_parser.copy()
-movie_filter_and_page_parser.add_argument(name='director_id', type=str, location='args', required=False)
-movie_filter_and_page_parser.add_argument(name='genre_id', type=str, location='args', required=False)
+movie_filter_and_page_parser.add_argument(name='director_id', type=int, location='args', required=False)
+movie_filter_and_page_parser.add_argument(name='genre_id', type=int, location='args', required=False)
 movie_filter_and_page_parser.add_argument(name='year', type=int, location='args', required=False)
 
 movie_state_filter_and_page_parser: RequestParser = movie_filter_and_page_parser.copy()
 movie_state_filter_and_page_parser.add_argument(
-    name='state',
+    name='status',
     choices=('new',),
+    location='args',
     required=False,
     help='Only have to be "new"'
 )
