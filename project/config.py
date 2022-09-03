@@ -7,7 +7,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 class BaseConfig:
-    SECRET_KEY = os.getenv('SECRET_KEY', 'you-will-never-guess')
+    JWT_SECRET = os.getenv('SECRET_KEY', 'you-will-never-guess')
+    JWT_ALGORITHM = 'HS256'
 
     # For paginate
     ITEMS_PER_PAGE = 12
@@ -26,6 +27,10 @@ class BaseConfig:
     RESTX_JSON = {
         'ensure_ascii': False,
     }
+
+    @staticmethod
+    def init_app(app):
+        pass
 
 
 class TestingConfig(BaseConfig):
@@ -62,5 +67,4 @@ class ConfigFactory:
 config = ConfigFactory.get_config()
 
 if __name__ == "__main__":
-    print(os.getenv('FLASK_ENV'))
-
+    pass

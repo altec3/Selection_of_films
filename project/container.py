@@ -1,3 +1,7 @@
+from project.dao.main.user import UserDAO
+from project.services.auth import AuthService
+from project.services.reg import RegService
+from project.services.user import UserService
 from project.setup.db import db
 from project.dao.main.director import DirectorDAO
 from project.dao.main.genre import GenreDAO
@@ -15,3 +19,9 @@ genre_service = GenreService(genre_dao)
 
 movie_dao = MovieDAO(db.session)
 movie_service = MovieService(movie_dao)
+
+user_dao = UserDAO(db.session)
+reg_service = RegService()
+user_service = UserService(user_dao, reg_service)
+
+auth_service = AuthService(user_service)

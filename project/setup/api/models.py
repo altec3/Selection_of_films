@@ -33,12 +33,13 @@ movie_api_model: Model = api.model('Фильм', {
 })
 
 user_api_model: Model = api.model('Профиль пользователя', {
-    'id': fields.Integer(required=True),
-    'email': fields.String(required=True),
-    'password': fields.String(required=True),
-    'name': fields.String(max_length=100),
-    'surname': fields.String(max_length=100),
-    'favorite_genre': fields.Integer(),
+    'id': fields.Integer(example=1),
+    'email': fields.String(required=True, example='user@mail.ru'),
+    'password': fields.String(required=True, example='pA$$w0rD'),
+    'name': fields.String(max_length=100, example='Ivan'),
+    'surname': fields.String(max_length=100, example='Ivanov'),
+    'role': fields.String(max_length=50, example='user'),
+    'favorite_genre': fields.Integer(example='1'),
 })
 
 tokens_api_model: Model = api.model('Access и Refresh токены', {

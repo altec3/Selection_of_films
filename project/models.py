@@ -1,4 +1,3 @@
-# from sqlalchemy import Column, String
 from marshmallow import Schema, fields, validate
 
 from project.setup.db import models, db
@@ -72,6 +71,7 @@ class User(models.Base):
     password = db.Column(db.String(), nullable=False)
     name = db.Column(db.String(100))
     surname = db.Column(db.String(100))
+    role = db.Column(db.String(50), default="user")
     favorite_genre = db.Column(db.Integer)
 
     def __repr__(self):
@@ -85,4 +85,5 @@ class UserSchema(Schema):
     password = fields.String(required=True)
     name = fields.String(validate=validate.Length(max=100))
     surname = fields.String(validate=validate.Length(max=100))
+    role = fields.String()
     favorite_genre = fields.Integer()

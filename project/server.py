@@ -14,6 +14,7 @@ def base_service_error_handler(exception: BaseServiceError):
 def create_app(config_obj):
     app = Flask(__name__)
     app.config.from_object(config_obj)
+    app.app_context().push()
 
     CORS(app=app)
     db.init_app(app)

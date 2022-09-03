@@ -4,7 +4,7 @@ from flask_restx import Resource, Namespace
 from project.container import movie_service
 from project.models import MovieSchema
 from project.setup.api.models import movie_api_model, error_api_model
-from project.setup.api.parsers import page_parser, movie_state_filter_and_page_parser
+from project.setup.api.parsers import movie_state_filter_and_page_parser
 
 movies_ns: Namespace = Namespace("movies")
 
