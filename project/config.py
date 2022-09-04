@@ -7,14 +7,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 class BaseConfig:
-    JWT_SECRET = os.getenv('SECRET_KEY', 'you-will-never-guess')
-    JWT_ALGORITHM = 'HS256'
+    # Случайный ключ для подписи данных
+    SECRET_KEY = os.getenv('SECRET_KEY', 'you-will-never-guess')
 
     # For paginate
     ITEMS_PER_PAGE = 12
 
     # SQL settings
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # For PyJWT
+    JWT_SECRET = '8wpJ0zgpEL'
+    JWT_ALGORITHM = 'HS256'
 
     TOKEN_EXPIRE_MINUTES = 15
     TOKEN_EXPIRE_DAYS = 130
@@ -50,8 +54,7 @@ class ProductionConfig(BaseConfig):
 
 
 class ConfigFactory:
-    flask_env = os.getenv('FLASK_ENV')
-    # flask_env = 'development'
+    flask_env = os.getenv('FLASK_ENV') or 'development'
 
     @classmethod
     def get_config(cls) -> Type[BaseConfig]:

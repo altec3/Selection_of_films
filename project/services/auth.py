@@ -22,7 +22,7 @@ class AuthService:
         email = auth_data.get("email", None)
         password = auth_data.get("password", None)
 
-        user = self._user_service.get_by_username(email)
+        user = self._user_service.get_by_email(email)
 
         if not is_refresh:
             if not self.compare_passwords(user.password, password):
@@ -45,6 +45,10 @@ class AuthService:
             "access_token": access_token,
             "refresh_token": refresh_token,
         }
+
+    def decode_token(self, data: str) -> dict:
+        token: str = data.split("Bearer ")[-1]
+        return jwt.decode(token, self._jwt_secret, algorithms=[self._jwt_algorithm])
 
     def approve_refresh_token(self, auth_data: dict):
         refresh_token = auth_data.get("refresh_token")

@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields, validate, post_load
 
 from project.setup.db import models, db
 
@@ -75,7 +75,7 @@ class User(models.Base):
     favorite_genre = db.Column(db.Integer)
 
     def __repr__(self):
-        return f'<User {self.name}>'
+        return f'<User {self.email}>'
 
 
 class UserSchema(Schema):
@@ -87,3 +87,7 @@ class UserSchema(Schema):
     surname = fields.String(validate=validate.Length(max=100))
     role = fields.String()
     favorite_genre = fields.Integer()
+
+    @post_load()
+    def make_obj(self, data, **kwargs):
+        return User(**data)

@@ -1,5 +1,7 @@
+import logging
 from flask import url_for
 from flask_restx import Namespace, Resource
+from flask_restx.mask import ParseError
 
 from project.container import auth_service, user_service
 from project.models import UserSchema
@@ -17,14 +19,17 @@ class RegisterView(Resource):
     @api.expect(auth_parser)  # <-- from Frontend
     @api.response(201, description="OK", model=user_api_model,
                   headers={'Location': 'The URL of a newly created user'})
-    @api.response(404, description="No Found", model=error_api_model)
+    @api.response(400, description="Bad Request", model=error_api_model)
     @api.marshal_list_with(user_api_model, code=201, description='OK')  # --> to Frontend
     def post(self):
         """Register a new user"""
 
         try:
             response = user_service.create(auth_parser.parse_args())
-        except Exception:
+            if not response:
+                return None, 400
+        except ParseError as e:
+            logging.info(e)
             return None, 400
         else:
             return user_schema.dump(response), 201, {'Location': url_for('movies_movie_view', mid=response.id)}

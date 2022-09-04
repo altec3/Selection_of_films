@@ -18,8 +18,8 @@ class UserService:
     def get_by_id(self, uid: int):
         return self._dao.get_by_id(uid)
 
-    def get_by_username(self, username: str):
-        return self._dao.get_by_username(username)
+    def get_by_email(self, email: str):
+        return self._dao.get_by_email(email)
 
     def update(self, data: dict) -> bool:
         return self._dao.update(data)

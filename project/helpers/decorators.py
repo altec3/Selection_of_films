@@ -1,7 +1,9 @@
-import jwt
 from flask import request, abort
+import jwt
+from jwt import PyJWTError
+import logging
 
-from project.helpers.constants import JWT_SECRET, JWT_ALG
+from project.helpers.constants import JWT_SECRET, JWT_ALGORITHM
 
 
 def auth_required(func):
@@ -9,12 +11,14 @@ def auth_required(func):
         if 'Authorization' not in request.headers:
             abort(401)
 
-        data = request.headers['Authorization']
-        token = data.split("Bearer ")[-1]
+        token = request.headers['Authorization'].split("Bearer ")[-1]
         try:
-            jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALG])
+            jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        except PyJWTError as e:
+            logging.warning(e)
+            abort(401)
         except Exception as e:
-            print("JWT Decode Exception", e)
+            logging.warning(e)
             abort(401)
         return func(*args, **kwargs)
 
@@ -26,11 +30,10 @@ def admin_required(func):
         if 'Authorization' not in request.headers:
             abort(401)
 
-        data = request.headers['Authorization']
-        token = data.split("Bearer ")[-1]
+        token = request.headers['Authorization'].split("Bearer ")[-1]
         role = None
         try:
-            user: dict = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALG])
+            user: dict = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
             role = user.get('role', 'user')
         except Exception as e:
             print("JWT Decode Exception", e)
@@ -41,3 +44,7 @@ def admin_required(func):
         return func(*args, **kwargs)
 
     return wrapper
+
+
+if __name__ == "__main__":
+    pass
