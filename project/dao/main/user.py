@@ -31,8 +31,8 @@ class UserDAO:
         return self._session.query(User).filter(User.email == email).first_or_404()
 
     def update(self, data: dict) -> bool:
-        uid = data.get('id')
-        if self._session.query(User).filter(User.id == uid).update(data):
+        email = data.get('email')
+        if self._session.query(User).filter(User.email == email).update(data):
             self._session.commit()
             return True
 

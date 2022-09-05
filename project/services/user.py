@@ -26,3 +26,16 @@ class UserService:
 
     def delete(self, uid: int) -> bool:
         return self._dao.delete(uid)
+
+    def change_password(self, data: dict) -> bool:
+        user = self.get_by_email(data.get("email"))
+        new_password = self.reg.generate_password(data.get("new_password"))
+
+        if user.password != new_password:
+            data = {
+                "email": user.email,
+                "password": new_password
+            }
+            return self._dao.update(data)
+
+        return False

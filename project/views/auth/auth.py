@@ -41,7 +41,6 @@ class AuthsView(Resource):
     @api.expect(auth_parser)
     @api.marshal_list_with(tokens_api_model, code=201, description='OK')
     @api.response(400, description="Bad Request", model=error_api_model)
-    @api.response(404, description="No Found", model=error_api_model)
     def post(self):
         """User authentication"""
 

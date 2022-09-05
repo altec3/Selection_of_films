@@ -13,13 +13,14 @@ tokens_parser: RequestParser = RequestParser()
 tokens_parser.add_argument(name='access_token', type=str, required=False)
 tokens_parser.add_argument(name='refresh_token', type=str, required=True)
 
-change_password: RequestParser = RequestParser()
-change_password.add_argument(name='old_password', type=str, required=True, nullable=False)
-change_password.add_argument(name='new_password', type=str, required=True, nullable=False)
+change_password_parser: RequestParser = RequestParser()
+change_password_parser.add_argument(name='old_password', type=str, location='json', required=False)
+change_password_parser.add_argument(name='new_password', type=str, location='json', required=True, nullable=False)
 
 change_user_info_parser: RequestParser = RequestParser()
 change_user_info_parser.add_argument(name='name', type=str, required=False)
 change_user_info_parser.add_argument(name='surname', type=str, required=False)
+change_user_info_parser.add_argument(name='favorite_genre', type=int, required=False)
 
 page_parser: RequestParser = RequestParser()
 page_parser.add_argument(name='page', type=int, location='args', required=False)
