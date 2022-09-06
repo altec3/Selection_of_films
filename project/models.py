@@ -72,7 +72,9 @@ class User(models.Base):
     name = db.Column(db.String(100))
     surname = db.Column(db.String(100))
     role = db.Column(db.String(50), default="user")
-    favorite_genre = db.Column(db.Integer)
+    favorite_genre_id = db.Column(db.Integer, db.ForeignKey(f"{Genre.__tablename__}.id"))
+
+    favorite_genre = db.relationship("Genre")
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -86,8 +88,23 @@ class UserSchema(Schema):
     name = fields.String(validate=validate.Length(max=100))
     surname = fields.String(validate=validate.Length(max=100))
     role = fields.String()
-    favorite_genre = fields.Integer()
+    favorite_genre_id = fields.Integer()
 
-    @post_load()
-    def make_obj(self, data, **kwargs):
-        return User(**data)
+    favorite_genre = fields.Nested(GenreSchema)
+
+
+class UserMovie(db.Model):
+    __tablename__ = 'user_movie'
+
+    user_id = db.Column(db.Integer, db.ForeignKey(f"{User.__tablename__}.id"))
+    movie_id = db.Column(db.Integer, db.ForeignKey(f"{Movie.__tablename__}.id"))
+    db.PrimaryKeyConstraint(user_id, movie_id)
+
+
+class UserMovieSchema(Schema):
+
+    user_id = fields.Integer()
+    movie_id = fields.Integer()
+
+    user = fields.Nested(UserSchema)
+    movie = fields.Nested(MovieSchema)

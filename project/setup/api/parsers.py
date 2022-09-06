@@ -20,7 +20,7 @@ change_password_parser.add_argument(name='new_password', type=str, location='jso
 change_user_info_parser: RequestParser = RequestParser()
 change_user_info_parser.add_argument(name='name', type=str, required=False)
 change_user_info_parser.add_argument(name='surname', type=str, required=False)
-change_user_info_parser.add_argument(name='favorite_genre', type=int, required=False)
+change_user_info_parser.add_argument(name='favorite_genre_id', type=int, required=False)
 
 page_parser: RequestParser = RequestParser()
 page_parser.add_argument(name='page', type=int, location='args', required=False)

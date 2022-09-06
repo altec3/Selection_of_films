@@ -48,13 +48,11 @@ class AuthService:
 
     def decode_token(self, data: str) -> dict:
         token: str = data.split("Bearer ")[-1]
-        return jwt.decode(token, self._jwt_secret, algorithms=[self._jwt_algorithm])
+        return jwt.decode(jwt=token, key=self._jwt_secret, algorithms=[self._jwt_algorithm])
 
     def approve_refresh_token(self, auth_data: dict):
         refresh_token = auth_data.get("refresh_token")
-        data: dict = jwt.decode(jwt=refresh_token, key=self._jwt_secret, algorithms=[self._jwt_algorithm])
-
-        return self.generate_tokens(data, is_refresh=True)
+        return self.generate_tokens(self.decode_token(refresh_token), is_refresh=True)
 
     def compare_passwords(self, password_hash: bytes, other_password: str) -> bool:
         return hmac.compare_digest(

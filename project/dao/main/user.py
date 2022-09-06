@@ -1,7 +1,5 @@
-import logging
-
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.exc import IntegrityError
+
 
 from project.models import User
 

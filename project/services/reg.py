@@ -5,7 +5,7 @@ import hashlib
 
 class RegService:
 
-    def generate_password(self, password: str) -> bytes:
+    def generate_password(self, password: str) -> str:
         hash_digest = hashlib.pbkdf2_hmac(
             hash_name="sha256",
             password=password.encode("utf-8"),
@@ -13,4 +13,4 @@ class RegService:
             iterations=PWD_HASH_ITERATIONS,
         )
 
-        return base64.b64encode(hash_digest)
+        return base64.b64encode(hash_digest).decode('utf-8')

@@ -5,26 +5,24 @@ from project.container import director_service
 from project.setup.api.models import director_api_model
 from project.setup.api.parsers import page_parser
 
-directors_ns = Namespace('directors')
+api = Namespace('directors')
 
 
-@directors_ns.route('/')
+@api.route('/')
 class DirectorsView(Resource):
-    @directors_ns.expect(page_parser)
-    @directors_ns.marshal_with(director_api_model, as_list=True, code=200, description='OK')
+    @api.expect(page_parser)
+    @api.marshal_list_with(director_api_model, code=200, description='OK')
     def get(self):
-        """
-        Get all genres.
-        """
+        """Get all directors"""
+
         return director_service.get_all(page_parser.parse_args(), app.config.get("ITEMS_PER_PAGE"))
 
 
-@directors_ns.route('/<int:genre_id>/')
+@api.route('/<int:genre_id>/')
 class DirectorView(Resource):
-    @directors_ns.response(404, 'Not Found')
-    @directors_ns.marshal_with(director_api_model, code=200, description='OK')
+    @api.response(404, 'Not Found')
+    @api.marshal_with(director_api_model, code=200, description='OK')
     def get(self, genre_id: int):
-        """
-        Get genre by id.
-        """
+        """Get director by id."""
+
         return director_service.get_item(genre_id)

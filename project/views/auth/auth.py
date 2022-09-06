@@ -1,5 +1,4 @@
 import logging
-from flask import url_for
 from flask_restx import Namespace, Resource
 from flask_restx.mask import ParseError
 
@@ -17,8 +16,6 @@ user_schema = UserSchema()
 class RegisterView(Resource):
 
     @api.expect(auth_parser)  # <-- from Frontend
-    @api.response(201, description="OK", model=user_api_model,
-                  headers={'Location': 'The URL of a newly created user'})
     @api.response(400, description="Bad Request", model=error_api_model)
     @api.marshal_list_with(user_api_model, code=201, description='OK')  # --> to Frontend
     def post(self):
@@ -32,14 +29,14 @@ class RegisterView(Resource):
             logging.info(e)
             return None, 400
         else:
-            return user_schema.dump(response), 201, {'Location': url_for('movies_movie_view', mid=response.id)}
+            return user_schema.dump(response), 201
 
 
 @api.route("/login")
 class AuthsView(Resource):
 
     @api.expect(auth_parser)
-    @api.marshal_list_with(tokens_api_model, code=201, description='OK')
+    @api.marshal_with(tokens_api_model, code=201, description='OK')
     @api.response(400, description="Bad Request", model=error_api_model)
     def post(self):
         """User authentication"""
@@ -47,7 +44,7 @@ class AuthsView(Resource):
         return auth_service.generate_tokens(auth_parser.parse_args()), 201
 
     @api.expect(refresh_auth_parser)
-    @api.marshal_list_with(tokens_api_model, code=201, description='OK')
+    @api.marshal_with(tokens_api_model, code=201, description='OK')
     @api.response(400, description="Bad Request", model=error_api_model)
     def put(self):
         """Update user authentication"""

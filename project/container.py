@@ -1,5 +1,7 @@
+from project.dao.main.favorite import FavoriteDAO
 from project.dao.main.user import UserDAO
 from project.services.auth import AuthService
+from project.services.favorite import FavoriteService
 from project.services.reg import RegService
 from project.services.user import UserService
 from project.setup.db import db
@@ -25,3 +27,6 @@ reg_service = RegService()
 user_service = UserService(user_dao, reg_service)
 
 auth_service = AuthService(user_service)
+
+favorite_dao = FavoriteDAO(db.session)
+favorite_service = FavoriteService(favorite_dao, user_service)

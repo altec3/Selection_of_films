@@ -39,10 +39,15 @@ user_api_model: Model = api.model('Профиль пользователя', {
     'name': fields.String(max_length=100, example='Ivan'),
     'surname': fields.String(max_length=100, example='Ivanov'),
     'role': fields.String(max_length=50, example='user'),
-    'favorite_genre': fields.Integer(example='1'),
+    'favorite_genre': fields.Nested(genre_api_model),
 })
 
 tokens_api_model: Model = api.model('Access и Refresh токены', {
     'access_token': fields.String(required=True),
     'refresh_token': fields.String(required=True),
+})
+
+favorite_api_model: Model = api.model('Избранное', {
+    'user_id': fields.Integer(example=1),
+    'movie_id': fields.Integer(example=2),
 })
