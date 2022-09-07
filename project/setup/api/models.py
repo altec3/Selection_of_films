@@ -32,10 +32,16 @@ movie_api_model: Model = api.model('Фильм', {
     'director': fields.Nested(director_api_model),
 })
 
+
+class HidePassword(fields.Raw):
+    def format(self, value):
+        return "********"
+
+
 user_api_model: Model = api.model('Профиль пользователя', {
     'id': fields.Integer(example=1),
     'email': fields.String(required=True, example='user@mail.ru'),
-    'password': fields.String(required=True, example='pA$$w0rD'),
+    'password': HidePassword(required=True, example='********'),
     'name': fields.String(max_length=100, example='Ivan'),
     'surname': fields.String(max_length=100, example='Ivanov'),
     'role': fields.String(max_length=50, example='user'),
