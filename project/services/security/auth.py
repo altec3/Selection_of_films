@@ -1,4 +1,3 @@
-from project.helpers.constants import JWT_SECRET, JWT_ALGORITHM, PWD_HASH_SALT, PWD_HASH_ITERATIONS
 from flask import abort
 import base64
 import calendar
@@ -7,16 +6,17 @@ import hashlib
 import hmac
 import jwt
 
+from project.config import config
 from project.services.user import UserService
 
 
 class AuthService:
     def __init__(self, user_service: UserService):
         self._user_service = user_service
-        self._jwt_secret = JWT_SECRET
-        self._jwt_algorithm = JWT_ALGORITHM
-        self._pwd_salt = PWD_HASH_SALT
-        self._pwd_iterations = PWD_HASH_ITERATIONS
+        self._jwt_secret = config.JWT_SECRET
+        self._jwt_algorithm = config.JWT_ALGORITHM
+        self._pwd_salt = config.PWD_HASH_SALT
+        self._pwd_iterations = config.PWD_HASH_ITERATIONS
 
     def generate_tokens(self, auth_data: dict, is_refresh: bool = False) -> dict:
         email = auth_data.get("email", None)

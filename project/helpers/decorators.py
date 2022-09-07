@@ -3,7 +3,7 @@ import jwt
 from jwt import PyJWTError
 import logging
 
-from project.helpers.constants import JWT_SECRET, JWT_ALGORITHM
+from project.config import config
 
 
 def auth_required(func):
@@ -13,7 +13,7 @@ def auth_required(func):
 
         token = request.headers['Authorization'].split("Bearer ")[-1]
         try:
-            jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+            jwt.decode(token, config.JWT_SECRET, algorithms=[config.JWT_ALGORITHM])
         except PyJWTError as e:
             logging.warning(e)
             abort(401)
@@ -33,7 +33,7 @@ def admin_required(func):
         token = request.headers['Authorization'].split("Bearer ")[-1]
         role = None
         try:
-            user: dict = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+            user: dict = jwt.decode(token, config.JWT_SECRET, algorithms=[config.JWT_ALGORITHM])
             role = user.get('role', 'user')
         except Exception as e:
             print("JWT Decode Exception", e)

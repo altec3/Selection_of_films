@@ -19,6 +19,7 @@ def create_app(config_obj):
     CORS(app=app)
     db.init_app(app)
     api.init_app(app)
+    config_obj.init_app(app)
 
     # Регистрация эндпоинтов
     api.add_namespace(auth_ns)
