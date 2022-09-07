@@ -1,5 +1,5 @@
 from project.dao.main.user import UserDAO
-from project.services.reg import RegService
+from project.services.security.reg import RegService
 
 
 class UserService:
