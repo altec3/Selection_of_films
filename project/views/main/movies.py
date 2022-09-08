@@ -67,7 +67,7 @@ class MovieView(Resource):
         return None, 404
 
     @api.response(204, description="No Content")
-    @api.response(404, description="Not Found")
+    @api.response(404, description="Not Found", model=error_api_model)
     def delete(self, mid: int):
         """Delete a movie given its identifier"""
 

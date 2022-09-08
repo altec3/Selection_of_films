@@ -2,7 +2,7 @@ from flask import current_app as app
 from flask_restx import Namespace, Resource
 
 from project.container import director_service
-from project.setup.api.models import director_api_model
+from project.setup.api.models import director_api_model, error_api_model
 from project.setup.api.parsers import page_parser
 
 api = Namespace('directors')
@@ -20,8 +20,8 @@ class DirectorsView(Resource):
 
 @api.route('/<int:genre_id>/')
 class DirectorView(Resource):
-    @api.response(404, 'Not Found')
     @api.marshal_with(director_api_model, code=200, description='OK')
+    @api.response(404, 'Not Found', model=error_api_model)
     def get(self, genre_id: int):
         """Get director by id."""
 
