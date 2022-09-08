@@ -28,8 +28,8 @@ movie_api_model: Model = api.model('Фильм', {
     'trailer': fields.String(max_length=255, example='https://www.youtube.com/watch?v=UKei_d0cbP4'),
     'year': fields.Integer(required=True, min=0, example=2018),
     'rating': fields.Float(required=True, min=0.0, max=10.0, example=8.6),
-    'genre': fields.Nested(genre_api_model),
-    'director': fields.Nested(director_api_model),
+    'genre': fields.String(attribute='genre.name'),
+    'director': fields.String(attribute='director.name'),
 })
 
 
@@ -45,7 +45,7 @@ user_api_model: Model = api.model('Профиль пользователя', {
     'name': fields.String(max_length=100, example='Ivan'),
     'surname': fields.String(max_length=100, example='Ivanov'),
     'role': fields.String(max_length=50, example='user'),
-    'favorite_genre': fields.Nested(genre_api_model),
+    'favorite_genre': fields.String(attribute='favorite_genre.name'),
 })
 
 tokens_api_model: Model = api.model('Access и Refresh токены', {
