@@ -1,6 +1,7 @@
-from project.models import Genre
-
+from typing import List
 from flask_sqlalchemy import SQLAlchemy
+
+from project.models import Genre
 
 
 class GenreDAO:
@@ -15,7 +16,7 @@ class GenreDAO:
 
         return genre
 
-    def get_all(self, page: int, per_page: int) -> list[Genre]:
+    def get_all(self, page: int, per_page: int) -> List[Genre]:
         if page:
             return self.session.query(Genre).paginate(page, per_page, False).items
 

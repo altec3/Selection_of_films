@@ -1,3 +1,4 @@
+from typing import List
 from flask_sqlalchemy import SQLAlchemy, BaseQuery
 from sqlalchemy import desc
 
@@ -16,7 +17,7 @@ class MovieDAO:
 
         return movie
 
-    def get_all(self, page: int, per_page: int, fields: dict, new: str) -> list[Movie]:
+    def get_all(self, page: int, per_page: int, fields: dict, new: str) -> List[Movie]:
         db_query: BaseQuery = self._session.query(Movie)
 
         if fields:

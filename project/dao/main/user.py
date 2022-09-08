@@ -1,3 +1,4 @@
+from typing import List
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -19,7 +20,7 @@ class UserDAO:
         else:
             return user
 
-    def get_all(self, page: int, per_page: int) -> list[User]:
+    def get_all(self, page: int, per_page: int) -> List[User]:
         return self._session.query(User).paginate(page, per_page, False).items
 
     def get_by_id(self, uid: int) -> User:
