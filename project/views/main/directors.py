@@ -25,4 +25,4 @@ class DirectorView(Resource):
     def get(self, genre_id: int):
         """Get director by id."""
 
-        return director_service.get_item(genre_id)
+        return director_service.get_by_id(genre_id)

@@ -16,7 +16,7 @@ class GenreDAO:
 
         return genre
 
-    def get_all(self, page: int, per_page: int) -> List[Genre]:
+    def get_all(self, page: int = None, per_page: int = None) -> List[Genre]:
         if page:
             return self.session.query(Genre).paginate(page, per_page, False).items
 

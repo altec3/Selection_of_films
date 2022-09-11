@@ -9,7 +9,6 @@ from project.setup.api.models import error_api_model, favorite_api_model
 
 api: Namespace = Namespace("favorite")
 
-favorites_schema = UserMovieSchema(many=True)
 favorite_schema = UserMovieSchema()
 
 
