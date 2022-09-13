@@ -15,7 +15,7 @@ class DirectorDAO:
 
         return director
 
-    def get_all(self, page: int, per_page: int) -> list[Director]:
+    def get_all(self, page: int = None, per_page: int = None) -> list[Director]:
         if page:
             return self.session.query(Director).paginate(page, per_page, False).items
 
