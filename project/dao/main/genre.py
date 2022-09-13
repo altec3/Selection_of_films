@@ -1,5 +1,6 @@
 from typing import List
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.exceptions import NotFound
 
 from project.models import Genre
 
@@ -22,7 +23,7 @@ class GenreDAO:
 
         return self.session.query(Genre).all()
 
-    def get_by_id(self, gid: int) -> Genre:
+    def get_by_id(self, gid: int) -> Genre | NotFound:
         return self.session.query(Genre).get_or_404(gid)
 
     def update(self, data: dict) -> bool:
