@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 from project.exceptions import BaseServiceError
 from project.setup.api import api
@@ -20,6 +21,7 @@ def create_app(config_obj):
     db.init_app(app)
     api.init_app(app)
     config_obj.init_app(app)
+    migrate = Migrate(app, db, render_as_batch=True)
 
     # Регистрация эндпоинтов
     api.add_namespace(auth_ns)

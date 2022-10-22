@@ -50,7 +50,7 @@ class DevelopmentConfig(BaseConfig):
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
-    # SQLALCHEMY_DATABASE_URI = "postgresql://hw_26:hw_26_password@pg/hw_26"
+    # SQLALCHEMY_DATABASE_URI = "postgresql://psqluser:psqlpassword@psql/psql"
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + BASE_DIR.joinpath('project.db').as_posix()
 
 
