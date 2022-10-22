@@ -50,11 +50,12 @@ class DevelopmentConfig(BaseConfig):
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
-    # TODO: дополнить конфиг
+    # SQLALCHEMY_DATABASE_URI = "postgresql://hw_26:hw_26_password@pg/hw_26"
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + BASE_DIR.joinpath('project.db').as_posix()
 
 
 class ConfigFactory:
-    flask_env = os.getenv('FLASK_ENV') or 'development'
+    flask_env = os.getenv('FLASK_ENV')
 
     @classmethod
     def get_config(cls) -> Type[BaseConfig]:
