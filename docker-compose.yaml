@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  server:
+    build:
+      context: .
+    ports:
+      - 8080:80
+    depends_on:
+      psql:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+  migrations:
+    build:
+      context: .
+    depends_on:
+      psql:
+        condition: service_healthy
+    command: flask db upgrade
+  psql:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: psqluser
+      POSTGRES_PASSWORD: psqlpassword
+      POSTGRES_DB: psql
+    volumes:
+      - ./psql_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U psqluser"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
