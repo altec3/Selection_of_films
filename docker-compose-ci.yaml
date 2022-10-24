@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  server:
+    image: altec3/skypro_hw_26:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    ports:
+      - 80:80
+    depends_on:
+      psql:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+  migrations:
+    image: altec3/skypro_hw_26:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    depends_on:
+      psql:
+        condition: service_healthy
+    command: flask db upgrade
+  psql:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+    volumes:
+      - ./psql_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U psqluser -d psql"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
