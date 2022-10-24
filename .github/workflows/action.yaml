@@ -27,7 +27,7 @@ jobs:
           mkdir deploy
           cat docker-compose-ci.yaml | envsubst > deploy/docker-compose.yaml
       - name: copy files to server
-        uses: actions/checkout@master
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
