@@ -4,8 +4,9 @@ services:
   server:
     build:
       context: .
+    image: altec3/skypro_hw_26
     ports:
-      - 8080:80
+      - 80:80
     depends_on:
       psql:
         condition: service_healthy
@@ -14,6 +15,7 @@ services:
   migrations:
     build:
       context: .
+    image: altec3/skypro_hw_26
     depends_on:
       psql:
         condition: service_healthy
@@ -27,7 +29,7 @@ services:
     volumes:
       - ./psql_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U psqluser"]
+      test: ["CMD-SHELL", "pg_isready -U psqluser -d psql"]
       interval: 5s
       timeout: 5s
       retries: 5
