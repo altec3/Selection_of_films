@@ -9,10 +9,10 @@ COPY fixtures.json .
 COPY load_fixtures.py .
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install -U pip && pip install -r requirements.txt
 COPY run.py .
 COPY migrations migrations
 COPY project project
 
 # Команда,которая будет выполняться при запуске образа - docker run
-CMD flask run -h 0.0.0.0 -p 80
+CMD gunicorn run:app -b 0.0.0.0:80 -w 4
