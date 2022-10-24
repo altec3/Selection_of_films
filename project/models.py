@@ -36,7 +36,7 @@ class Movie(models.Base):
     __tablename__ = 'movie'
 
     title = db.Column(db.String(255), nullable=False)
-    description = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.String(1000), nullable=False)
     trailer = db.Column(db.String(255), nullable=False)
     year = db.Column(db.Integer, nullable=False)
     rating = db.Column(db.Integer, nullable=False)
@@ -53,7 +53,7 @@ class Movie(models.Base):
 class MovieSchema(Schema):
     id = fields.Integer(dump_only=True)
     title = fields.String(required=True, validate=validate.Length(max=255))
-    description = fields.String(required=True, validate=validate.Length(max=255))
+    description = fields.String(required=True, validate=validate.Length(max=1000))
     trailer = fields.String(required=True, validate=validate.Length(max=255))
     year = fields.Integer(required=True)
     rating = fields.Integer(required=True)
